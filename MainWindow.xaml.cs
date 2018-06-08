@@ -29,8 +29,16 @@ namespace ITTD
         //Global variables
         GameState gameState;
         int counterTimer = 0;
+        double playerMomentum = 0;
+        double playerMoving = 0;
+        double playerMovementX = 0;
+
+        Point P1Start;
+        Player Player = new Player();
+
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
+        MediaPlayer musicPlayer = new MediaPlayer();
 
         public MainWindow()
         {
@@ -38,19 +46,51 @@ namespace ITTD
             //splash screen
             //canvas.Background = new ImageBrush(new BitmapImage(new Uri("TroonSplash.png", UriKind.Relative)));
 
-            //start music, by Keegan
+            //start music
             //musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
             //musicPlayer.Play();
 
-            // starts the game timer thingy
+            //starts the game timer thingy
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
 
+            //place character
+            P1Start.X = 10;
+            P1Start.Y = 10;
+            Player.createPlayer(canvas, P1Start, 1);
         }
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             counterTimer++;
+            if (counterTimer % 2 == 0)
+            { 
+                if (playerMomentum < 0)
+                {
+                    playerMomentum++;
+                }
+                if (playerMomentum > 0)
+                {
+                    playerMomentum--;
+                }
+            }
+
+            playerMoving += playerMomentum;
+            playerMovementX = P1Start.X + playerMoving;
+            Player.update(playerMovementX);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            //apply force in a certain direction
+            if (e.Key == Key.Left)
+            {
+                playerMomentum--;
+            }
+            if (e.Key == Key.Right)
+            {
+                playerMomentum++;
+            }
             
         }
     }
