@@ -54,15 +54,39 @@ namespace ITTD
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
+            gameState = GameState.SplashScreen;
 
             //place character
             P1Start.X = 10;
             P1Start.Y = 10;
             Player.createPlayer(canvas, P1Start, 1);
+            
         }
+        
+        private void setupGame()
+        {
+            Background map = new Background();
+            map.drawWalls(canvas);
+            gameState = GameState.GameOn;
+        }
+        
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             counterTimer++;
+            
+            if (gameState == GameState.SplashScreen)
+            {
+                setupGame();
+            }
+            if (gameState == GameState.GameOn)
+            {
+
+            }
+            if (gameState == GameState.GameOver)
+            {
+
+            }
+
             if (counterTimer % 2 == 0)
             { 
                 if (playerMomentum < 0)
@@ -93,5 +117,4 @@ namespace ITTD
             }
             
         }
-    }
-}
+       
