@@ -66,7 +66,7 @@ namespace ITTD
         private void setupGame()
         {
             Background map = new Background();
-            map.drawWalls(canvas);
+            map.drawMap1(canvas);
             gameState = GameState.GameOn;
         }
 
