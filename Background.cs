@@ -12,14 +12,23 @@ namespace ITTD
 {
     class Background
     {
+        public void drawPlatform(Canvas c, Point location, double width)
+        {
+            Rectangle rectangle = new Rectangle();
+            rectangle.Width = width;
+            rectangle.Height = 20;
+            rectangle.Fill = Brushes.Red;
+            Canvas.SetTop(rectangle, location.Y);
+            Canvas.SetLeft(rectangle, location.X);
+            c.Children.Add(rectangle);
+        }
+        
         public void drawMap1(Canvas c)
         {
-            Rectangle floor = new Rectangle();
-            floor.Width = c.Width;
-            floor.Height = 10;
-            floor.Fill = Brushes.Red;
-            Canvas.SetBottom(floor, 0);
-            c.Children.Add(floor);
+            Point locFloor = new Point(0, c.Height-20);
+            Point locPlatform = new Point(100, 500);
+            drawPlatform(c, locFloor, c.Width);
+            drawPlatform(c, locPlatform, 100);
         }
     }
     
