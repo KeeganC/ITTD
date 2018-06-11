@@ -1,4 +1,4 @@
-/*Keegan Chan and Ethan Shipston
+﻿/*Keegan Chan
  * 6 6 2018
  * ITTD
  * A multiplayer side shooter game*/
@@ -32,6 +32,10 @@ namespace ITTD
         double playerMomentum = 0;
         double playerMoving = 0;
         double playerMovementX = 0;
+        double playerMomentumUp = 0;
+        double playerMovingUp = 0;
+        double playerMovementY = 0;
+
 
         Point P1Start;
         Player Player = new Player();
@@ -57,8 +61,8 @@ namespace ITTD
             gameState = GameState.SplashScreen;
 
             //place character
-            P1Start.X = 0;
-            P1Start.Y = 10;
+            P1Start.X = 10;
+            P1Start.Y = 30;
             Player.createPlayer(canvas, P1Start, 1);
 
         }
@@ -78,52 +82,60 @@ namespace ITTD
             {
                 setupGame();
             }
+
             if (gameState == GameState.GameOn)
             {
 
+                //slow down player when not moving
+                if (counterTimer % 2 == 0)
+                {
+                    if (playerMomentum < 0)
+                    {
+                        playerMomentum++;
+                    }
+                    if (playerMomentum > 0)
+                    {
+                        playerMomentum--;
+                    }
+                    
+                    if (playerMovementY > 10)
+                    {
+                        playerMomentumUp--;
+                    }
+                    else if (playerMomentumUp <= 0)
+                    {
+                        playerMomentumUp = 0;
+                    }
+                }
+
+                playerMomentum = Player.addMomentum(playerMomentum);
+                playerMomentumUp = Player.addMomentumUp(playerMomentumUp);
+
+                playerMoving += playerMomentum;
+                if (playerMovementX < 0)
+                {
+                    playerMoving = 770;
+                }
+                if (playerMoving > 770)
+                {
+                    playerMoving = 0;
+                }
+
+                //adjusts player's location based on momentum
+                playerMoving += playerMomentum;
+                playerMovementX = P1Start.X + playerMoving;
+
+                playerMovingUp += playerMomentumUp;
+                playerMovementY = P1Start.Y + playerMovingUp;
+                Player.update(playerMovementX, playerMovementY);
             }
+
             if (gameState == GameState.GameOver)
             {
 
             }
-
-            if (counterTimer % 2 == 0)
-            {
-                if (playerMomentum < 0)
-                {
-                    playerMomentum++;
-                }
-                if (playerMomentum > 0)
-                {
-                    playerMomentum--;
-                }
-            }
-
-            playerMoving += playerMomentum;
-            if (playerMovementX < 0)
-            {
-                playerMoving = 770;
-            }
-            if (playerMoving > 770)
-            {
-                playerMoving = 0;
-            }
-            playerMovementX = P1Start.X + playerMoving;
-            Player.update(playerMovementX);
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            //apply force in a certain direction
-            if (e.Key == Key.Left)
-            {
-                playerMomentum--;
-            }
-            if (e.Key == Key.Right)
-            {
-                playerMomentum++;
-            }
-
-        }
     }
 }
+       
