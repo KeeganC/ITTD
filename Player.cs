@@ -16,6 +16,7 @@ namespace ITTD
         Rectangle rctPlayer = new Rectangle();
         Canvas canvas;
         bool canJump = true;
+        int counterTimer = 0;
 
         //create player
         public void createPlayer(Canvas c, Point location, int playerNum)
@@ -61,16 +62,19 @@ namespace ITTD
 
         public double addMomentumUp(double playerMomentumUp)
         {
+            counterTimer++;
+
             //apply force upwards
             if (Keyboard.IsKeyDown(Key.Up))
             {
                 if (canJump == true)
                 {
-                    playerMomentumUp += 15;
+                    playerMomentumUp += 10;
+                    canJump = false;
+                    counterTimer = 0;
                 }
-                canJump = false;
             }
-            if (Keyboard.IsKeyUp(Key.Up))
+            if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.Up))
             {
                 canJump = true;
             }
