@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,32 +27,33 @@ namespace ITTD
 
             canvas.Children.Add(rctPlayer);
             Canvas.SetLeft(rctPlayer, location.X);
-            Canvas.SetTop(rctPlayer, location.Y);
+            Canvas.SetBottom(rctPlayer, location.Y);
         }
 
         public void update(double playerMovementX, double playerMovementY)
         {
             Canvas.SetLeft(rctPlayer, playerMovementX);
-            Canvas.SetTop(rctPlayer, playerMovementY);
+            Canvas.SetBottom(rctPlayer, playerMovementY);
         }
 
         public double addMomentum(double playerMomentum)
         {
+            int speedcap = 7;
             //apply force in a certain direction
             if (Keyboard.IsKeyDown(Key.Left))
             {
                 playerMomentum -= 1;
-                if (playerMomentum < -5)//speedcap left
+                if (playerMomentum < -speedcap)//speedcap left
                 {
-                    playerMomentum = -5;
+                    playerMomentum = -speedcap;
                 }
             }
             if (Keyboard.IsKeyDown(Key.Right))
             {
                 playerMomentum += 1;
-                if (playerMomentum > 5)//speedcap right
+                if (playerMomentum > speedcap)//speedcap right
                 {
-                    playerMomentum = 5;
+                    playerMomentum = speedcap;
                 }
             }
             return playerMomentum;
@@ -65,7 +66,7 @@ namespace ITTD
             {
                 if (canJump == true)
                 {
-                    playerMomentumUp -= 15;
+                    playerMomentumUp += 15;
                 }
                 canJump = false;
             }
