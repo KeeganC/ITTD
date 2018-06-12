@@ -62,7 +62,7 @@ namespace ITTD
 
             //place character
             P1Start.X = 10;
-            P1Start.Y = 30;
+            P1Start.Y = 40;
             Player.createPlayer(canvas, P1Start, 1);
 
         }
@@ -97,7 +97,7 @@ namespace ITTD
                     {
                         playerMomentum--;
                     }
-                    
+
                     if (playerMovementY > 10)
                     {
                         playerMomentumUp--;
@@ -112,7 +112,7 @@ namespace ITTD
                 playerMomentumUp = Player.addMomentumUp(playerMomentumUp);
 
                 playerMoving += playerMomentum;
-                if (playerMovementX < 0)
+                if (playerMovementX < 0) //wall cycle to oposite wall
                 {
                     playerMoving = 770;
                 }
@@ -124,9 +124,14 @@ namespace ITTD
                 //adjusts player's location based on momentum
                 playerMoving += playerMomentum;
                 playerMovementX = P1Start.X + playerMoving;
-
+                
                 playerMovingUp += playerMomentumUp;
                 playerMovementY = P1Start.Y + playerMovingUp;
+                if (playerMovementY < 20) //floor collision
+                {
+                    playerMovementY = 20;
+                    playerMomentumUp = 1;
+                }
                 Player.update(playerMovementX, playerMovementY);
             }
 
@@ -138,4 +143,3 @@ namespace ITTD
 
     }
 }
-       

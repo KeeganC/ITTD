@@ -27,13 +27,13 @@ namespace ITTD
 
             canvas.Children.Add(rctPlayer);
             Canvas.SetLeft(rctPlayer, location.X);
-            Canvas.SetBottom(rctPlayer, location.Y);
+            Canvas.SetTop(rctPlayer, location.Y);
         }
 
         public void update(double playerMovementX, double playerMovementY)
         {
             Canvas.SetLeft(rctPlayer, playerMovementX);
-            Canvas.SetBottom(rctPlayer, playerMovementY);
+            Canvas.SetTop(rctPlayer, playerMovementY);
         }
 
         public double addMomentum(double playerMomentum)
@@ -42,10 +42,18 @@ namespace ITTD
             if (Keyboard.IsKeyDown(Key.Left))
             {
                 playerMomentum -= 1;
+                if (playerMomentum < -5)//speedcap left
+                {
+                    playerMomentum = -5;
+                }
             }
             if (Keyboard.IsKeyDown(Key.Right))
             {
                 playerMomentum += 1;
+                if (playerMomentum > 5)//speedcap right
+                {
+                    playerMomentum = 5;
+                }
             }
             return playerMomentum;
         }
@@ -57,9 +65,9 @@ namespace ITTD
             {
                 if (canJump == true)
                 {
-                    playerMomentumUp += 15;
-                    canJump = false;
+                    playerMomentumUp -= 15;
                 }
+                canJump = false;
             }
             if (Keyboard.IsKeyUp(Key.Up))
             {

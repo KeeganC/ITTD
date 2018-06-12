@@ -22,15 +22,15 @@ namespace ITTD
             Canvas.SetLeft(rectangle, location.X);
             c.Children.Add(rectangle);
         }
-
+        
         public void drawMap1(Canvas c)
         {
-            Point locFloor = new Point(0, c.Height - 20);
+            Point locFloor = new Point(0, c.Height-20);
             Point locPlatform = new Point(100, 500);
             drawPlatform(c, locFloor, c.Width);
             drawPlatform(c, locPlatform, 100);
         }
     }
-
+    
 
 }
