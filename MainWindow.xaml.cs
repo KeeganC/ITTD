@@ -1,4 +1,4 @@
-﻿/*Keegan Chan
+/*Keegan Chan and Ethan Shipston
  * 6 6 2018
  * ITTD
  * A multiplayer side shooter game*/
@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 namespace ITTD
 {
     enum GameState { SplashScreen, GameOn, GameOver }
+    enum Maps { Map1}
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,6 +29,7 @@ namespace ITTD
     {
         //Global variables
         GameState gameState;
+        Maps maps;
         int counterTimer = 0;
         double playerMomentum = 0;
         double playerMoving = 0;
