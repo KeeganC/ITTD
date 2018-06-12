@@ -16,6 +16,7 @@ namespace ITTD
         Rectangle rctPlayer = new Rectangle();
         Canvas canvas;
         bool canJump = true;
+        bool facingLeft = true;
         int counterTimer = 0;
 
         //create player
@@ -43,6 +44,7 @@ namespace ITTD
             //apply force in a certain direction
             if (Keyboard.IsKeyDown(Key.Left))
             {
+                facingLeft = true;
                 playerMomentum -= 1;
                 if (playerMomentum < -speedcap)//speedcap left
                 {
@@ -51,6 +53,7 @@ namespace ITTD
             }
             if (Keyboard.IsKeyDown(Key.Right))
             {
+                facingLeft = false;
                 playerMomentum += 1;
                 if (playerMomentum > speedcap)//speedcap right
                 {
