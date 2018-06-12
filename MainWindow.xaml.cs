@@ -20,7 +20,6 @@ using System.Windows.Shapes;
 namespace ITTD
 {
     enum GameState { SplashScreen, GameOn, GameOver }
-    enum Maps { Map1}
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -29,7 +28,7 @@ namespace ITTD
     {
         //Global variables
         GameState gameState;
-        Maps maps;
+        Background.Maps maps;
         int counterTimer = 0;
         double playerMomentum = 0;
         double playerMoving = 0;
@@ -63,16 +62,17 @@ namespace ITTD
             gameState = GameState.SplashScreen;
 
             //place character
-            P1Start.X = 10;
-            P1Start.Y = 40;
+            P1Start.X = 0;
+            P1Start.Y = 0;
             Player.createPlayer(canvas, P1Start, 1);
 
         }
 
-        private void setupGame()
+        public void setupGame()
         {
             Background map = new Background();
             map.drawMap1(canvas);
+            maps = ITTD.Background.Maps.Map1;
             gameState = GameState.GameOn;
         }
 
@@ -87,7 +87,6 @@ namespace ITTD
 
             if (gameState == GameState.GameOn)
             {
-
                 //slow down player when not moving
                 if (counterTimer % 2 == 0)
                 {
@@ -109,32 +108,50 @@ namespace ITTD
                         playerMomentumUp = 0;
                     }
                 }
-
-                playerMomentum = Player.addMomentum(playerMomentum);
-                playerMomentumUp = Player.addMomentumUp(playerMomentumUp);
-
-                playerMoving += playerMomentum;
-                if (playerMovementX < 0) //wall cycle to oposite wall
+                if (maps == ITTD.Background.Maps.Map1)
                 {
-                    playerMoving = 770;
-                }
-                if (playerMoving > 770)
-                {
-                    playerMoving = 0;
-                }
+                    playerMomentum = Player.addMomentum(playerMomentum);
+                    playerMomentumUp = Player.addMomentumUp(playerMomentumUp);
 
-                //adjusts player's location based on momentum
-                playerMoving += playerMomentum;
-                playerMovementX = P1Start.X + playerMoving;
+                    playerMoving += playerMomentum;
+                    if (playerMovementX < 0) //wall cycle to oposite wall
+                    {
+                        playerMoving = 770;
+                    }
+                    if (playerMoving > 770)
+                    {
+                        playerMoving = 0;
+                    }
+
+                    //adjusts player's location based on momentum
+                    playerMoving += playerMomentum;
+                    playerMovementX = P1Start.X + playerMoving;
+
+                    playerMovingUp += playerMomentumUp;
+                    playerMovementY = P1Start.Y + playerMovingUp;
+                    if (playerMovementY < 20) //floor collision
+                    {
+                        playerMovementY = 20;
+                        playerMomentumUp = 1;
+                    }
+
+                    if (playerMomentumUp < 0 &&playerMovementY > 100 && playerMovementY < 120)
+                    {
+                        Console.Write("yo");
+                    }
+                    if (playerMovementX >= 70 && playerMovementX <= 200 && playerMovementY > 100 && playerMovementY < 120)
+                    {
+                        if (playerMomentumUp <= 0)
+                        {
+                            playerMovementY = 120;
+                            playerMomentumUp = 0;
+                            playerMovingUp = 120;
+                        }
+                        
+                    }
+                    Player.update(playerMovementX, playerMovementY);
+                }
                 
-                playerMovingUp += playerMomentumUp;
-                playerMovementY = P1Start.Y + playerMovingUp;
-                if (playerMovementY < 20) //floor collision
-                {
-                    playerMovementY = 20;
-                    playerMomentumUp = 1;
-                }
-                Player.update(playerMovementX, playerMovementY);
             }
 
             if (gameState == GameState.GameOver)
