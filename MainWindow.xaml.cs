@@ -36,6 +36,7 @@ namespace ITTD
         double playerMomentumUp = 0;
         double playerMovingUp = 0;
         double playerMovementY = 0;
+        Point lastPos = new Point();
 
 
         Point P1Start;
@@ -116,9 +117,9 @@ namespace ITTD
                     playerMoving += playerMomentum;
                     if (playerMovementX < 0) //wall cycle to oposite wall
                     {
-                        playerMoving = 770;
+                        playerMoving = 800;
                     }
-                    if (playerMoving > 770)
+                    if (playerMoving > 800)
                     {
                         playerMoving = 0;
                     }
@@ -138,8 +139,9 @@ namespace ITTD
                     passThroughPlatform(100, 200, 100, 120);
                     passThroughPlatform(600, 700, 100, 120);
                     solidPlatform(250, 550, 170, 190);
-                    
 
+                    lastPos.X = playerMovementX;
+                    lastPos.Y = playerMovementY;
                     Player.update(playerMovementX, playerMovementY);
                 }
 
@@ -166,7 +168,10 @@ namespace ITTD
         }
         private void solidPlatform(int platformLeftSide, int platformRightSide, int platformBottom, int platformTop)
         {
-            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            if (playerMovementX >= platformLeftSide - 30 && 
+                playerMovementX <= platformRightSide && 
+                playerMovementY > platformBottom && 
+                playerMovementY < platformTop) //platform player can't move through (top)
             {
                 if (playerMomentumUp <= 0)
                 {
@@ -175,13 +180,31 @@ namespace ITTD
                     playerMovingUp = platformTop;
                 }
             }
-            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            if (playerMovementX >= platformLeftSide - 30 && 
+                playerMovementX <= platformRightSide && 
+                playerMovementY > platformBottom - 35 && 
+                playerMovementY < platformTop &&
+                lastPos.Y + 35 <= platformBottom) //platform player can't move through (bottom)
             {
                 if (playerMomentumUp > 0)
                 {
                     playerMovementY = platformBottom - 35;
                     playerMomentumUp = 0;
                     playerMovingUp = platformBottom - 35;
+                }
+            }
+            if (playerMovementX >= platformLeftSide - 30 && 
+                playerMovementX <= platformRightSide - 10 && 
+                playerMovementY > platformBottom && 
+                playerMovementY < platformTop &&
+                lastPos.Y + 35 > platformBottom &&
+                lastPos.X + 30 > platformLeftSide) //platform player can't move through (left)
+            {
+                if (playerMomentum > 0)
+                {
+                    playerMovementX = platformLeftSide - 30;
+                    playerMomentum = 0;
+                    playerMoving = platformLeftSide - 30;
                 }
             }
         }
