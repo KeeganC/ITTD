@@ -142,7 +142,7 @@ namespace ITTD
 
                     lastPos.X = playerMovementX;
                     lastPos.Y = playerMovementY;
-                    Player.update(playerMovementX, playerMovementY);
+                    Player.update(canvas, playerMovementX, playerMovementY);
                 }
 
             }
