@@ -135,23 +135,14 @@ namespace ITTD
                         playerMomentumUp = 1;
                     }
 
-                    if (playerMomentumUp < 0 &&playerMovementY > 100 && playerMovementY < 120)
-                    {
-                        Console.Write("yo");
-                    }
-                    if (playerMovementX >= 70 && playerMovementX <= 200 && playerMovementY > 100 && playerMovementY < 120)
-                    {
-                        if (playerMomentumUp <= 0)
-                        {
-                            playerMovementY = 120;
-                            playerMomentumUp = 0;
-                            playerMovingUp = 120;
-                        }
-                        
-                    }
+                    passThroughPlatform(100, 200, 100, 120);
+                    passThroughPlatform(600, 700, 100, 120);
+                    solidPlatform(250, 550, 170, 190);
+                    
+
                     Player.update(playerMovementX, playerMovementY);
                 }
-                
+
             }
 
             if (gameState == GameState.GameOver)
@@ -160,5 +151,39 @@ namespace ITTD
             }
         }
 
+        private void passThroughPlatform(int platformLeftSide, int platformRightSide, int platformBottom, int platformTop)
+        {
+            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            {
+                if (playerMomentumUp <= 0)
+                {
+                    playerMovementY = platformTop;
+                    playerMomentumUp = 0;
+                    playerMovingUp = platformTop;
+                }
+
+            }
+        }
+        private void solidPlatform(int platformLeftSide, int platformRightSide, int platformBottom, int platformTop)
+        {
+            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            {
+                if (playerMomentumUp <= 0)
+                {
+                    playerMovementY = platformTop;
+                    playerMomentumUp = 0;
+                    playerMovingUp = platformTop;
+                }
+            }
+            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            {
+                if (playerMomentumUp > 0)
+                {
+                    playerMovementY = platformBottom - 35;
+                    playerMomentumUp = 0;
+                    playerMovingUp = platformBottom - 35;
+                }
+            }
+        }
     }
 }
