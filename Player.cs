@@ -14,6 +14,7 @@ namespace ITTD
     class Player
     {
         Rectangle rctPlayer = new Rectangle();
+        Bullet bullet = new Bullet();
         Canvas canvas;
         bool canJump = true;
         bool facingLeft = true;
@@ -32,10 +33,11 @@ namespace ITTD
             Canvas.SetBottom(rctPlayer, location.Y);
         }
 
-        public void update(double playerMovementX, double playerMovementY)
+        public void update(Canvas c, double playerMovementX, double playerMovementY)
         {
             Canvas.SetLeft(rctPlayer, playerMovementX);
             Canvas.SetBottom(rctPlayer, playerMovementY);
+            bullet.Shoost(c, facingLeft, playerMovementX, playerMovementY);
         }
 
         public double addMomentum(double playerMomentum)
