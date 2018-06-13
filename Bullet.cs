@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +13,29 @@ namespace ITTD
 {
     class Bullet
     {
-        public void shoot(Canvas c, bool facingLeft)
+        bool hit = false;
+        public void Shoost(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
         {
+            if (facingLeft == false)
+            {
+                gunBarrelX += 35;
+            }
+            if (facingLeft == true)
+            {
+                gunBarrelX -= 5;
+            }
 
+            Rectangle bullet = new Rectangle();
+            bullet.Width = 5;
+            bullet.Height = 5;
+            bullet.Fill = Brushes.Green;
+
+            if (Keyboard.IsKeyDown(Key.Enter))
+            {
+                c.Children.Add(bullet);
+                Canvas.SetLeft(bullet, gunBarrelX);
+                Canvas.SetBottom(bullet, gunBarrelY + 15);
+            }
         }
     }
 }
