@@ -207,6 +207,20 @@ namespace ITTD
                     playerMoving = platformLeftSide - 30;
                 }
             }
+            if (playerMovementX >= platformLeftSide - 30 &&
+                playerMovementX <= platformRightSide - 10 &&
+                playerMovementY > platformBottom &&
+                playerMovementY < platformTop &&
+                lastPos.Y + 35 > platformBottom &&
+                lastPos.X + 30 > platformLeftSide) //platform player can't move through (right)
+            {
+                if (playerMomentum < 0)
+                {
+                    playerMovementX = platformRightSide;
+                    playerMomentum = 0;
+                    playerMoving = platformRightSide;
+                }
+            }
         }
     }
 }
