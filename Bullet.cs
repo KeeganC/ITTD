@@ -13,29 +13,28 @@ namespace ITTD
 {
     class Bullet
     {
-        bool hit = false;
-        public void Shoost(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
-        {
-            if (facingLeft == false)
-            {
-                gunBarrelX += 35;
-            }
-            if (facingLeft == true)
-            {
-                gunBarrelX -= 5;
-            }
+        double bulletX;
+        public Rectangle bullet;
 
-            Rectangle bullet = new Rectangle();
+        public Bullet(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
+        {
+            //create bullet
+            bullet = new Rectangle();
             bullet.Width = 5;
             bullet.Height = 5;
             bullet.Fill = Brushes.Green;
-
-            if (Keyboard.IsKeyDown(Key.Enter))
+            //check which side of player to spawn the bullet on
+            if (facingLeft == false)
             {
-                c.Children.Add(bullet);
-                Canvas.SetLeft(bullet, gunBarrelX);
-                Canvas.SetBottom(bullet, gunBarrelY + 15);
+                bulletX = gunBarrelX + 35;
             }
+            if (facingLeft == true)
+            {
+                bulletX = gunBarrelX - 5;
+            }
+            c.Children.Add(bullet);
+            Canvas.SetLeft(bullet, bulletX);
+            Canvas.SetBottom(bullet, gunBarrelY + 15);
         }
     }
 }
