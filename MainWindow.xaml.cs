@@ -136,13 +136,78 @@ namespace ITTD
                         playerMomentumUp = 1;
                     }
 
-                    passThroughPlatform(100, 200, 100, 120);
-                    passThroughPlatform(600, 700, 100, 120);
+                    passThroughPlatform(100, 200, 100, 110);
+                    passThroughPlatform(600, 700, 100, 110);
+                    passThroughPlatform(300, 500, 230, 240);
+                    solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     solidPlatform(250, 550, 170, 190);
-
                     lastPos.X = playerMovementX;
                     lastPos.Y = playerMovementY;
-                    Player.update(canvas, playerMovementX, playerMovementY);
+
+                    Rectangle Line1 = new Rectangle();
+                    Line1.Width = 1;
+                    Line1.Height = canvas.Height;
+                    Canvas.SetLeft(Line1, 100);
+                    Line1.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line1);
+
+                    Rectangle Line2 = new Rectangle();
+                    Line2.Width = 1;
+                    Line2.Height = canvas.Height;
+                    Canvas.SetLeft(Line2, 200);
+                    Line2.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line2);
+
+                    Rectangle Line3 = new Rectangle();
+                    Line3.Width = 1;
+                    Line3.Height = canvas.Height;
+                    Canvas.SetLeft(Line3, 300);
+                    Line3.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line3);
+
+                    Rectangle Line4 = new Rectangle();
+                    Line4.Width = 1;
+                    Line4.Height = canvas.Height;
+                    Canvas.SetLeft(Line4, 400);
+                    Line4.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line4);
+
+                    Rectangle Line5 = new Rectangle();
+                    Line5.Width = 1;
+                    Line5.Height = canvas.Height;
+                    Canvas.SetLeft(Line5, 500);
+                    Line5.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line5);
+
+                    Rectangle Line6 = new Rectangle();
+                    Line6.Width = 1;
+                    Line6.Height = canvas.Height;
+                    Canvas.SetLeft(Line6, 600);
+                    Line6.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line6);
+
+                    Rectangle Line7 = new Rectangle();
+                    Line7.Width = 1;
+                    Line7.Height = canvas.Height;
+                    Canvas.SetLeft(Line7, 700);
+                    Line7.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line7);
+
+                    Rectangle Line8 = new Rectangle();
+                    Line8.Width = 1;
+                    Line8.Height = canvas.Height;
+                    Canvas.SetLeft(Line8, 800);
+                    Line8.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line8);
+
+                    Rectangle Line9 = new Rectangle();
+                    Line9.Width = 1;
+                    Line9.Height = canvas.Height;
+                    Canvas.SetLeft(Line9, 900);
+                    Line9.Fill = Brushes.LightBlue;
+                    canvas.Children.Add(Line9);
+
+                    Player.update(playerMovementX, playerMovementY);
                 }
 
             }
@@ -153,7 +218,7 @@ namespace ITTD
             }
         }
 
-        private void passThroughPlatform(int platformLeftSide, int platformRightSide, int platformBottom, int platformTop)
+        private void passThroughPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
         {
             if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
             {
@@ -166,12 +231,13 @@ namespace ITTD
 
             }
         }
-        private void solidPlatform(int platformLeftSide, int platformRightSide, int platformBottom, int platformTop)
+        private void solidPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
         {
             if (playerMovementX >= platformLeftSide - 30 && 
                 playerMovementX <= platformRightSide && 
                 playerMovementY > platformBottom && 
-                playerMovementY < platformTop) //platform player can't move through (top)
+                playerMovementY < platformTop &&
+                lastPos.Y >= platformTop) //platform player can't move through (top)
             {
                 if (playerMomentumUp <= 0)
                 {
@@ -195,30 +261,30 @@ namespace ITTD
             }
             if (playerMovementX >= platformLeftSide - 30 && 
                 playerMovementX <= platformRightSide - 10 && 
-                playerMovementY > platformBottom && 
+                playerMovementY >= platformBottom && 
                 playerMovementY < platformTop &&
                 lastPos.Y + 35 > platformBottom &&
                 lastPos.X + 30 > platformLeftSide) //platform player can't move through (left)
             {
                 if (playerMomentum > 0)
                 {
-                    playerMovementX = platformLeftSide - 30;
-                    playerMomentum = 0;
-                    playerMoving = platformLeftSide - 30;
+                    playerMovementX = platformLeftSide - 30 + playerMomentum;
+                    playerMoving = platformLeftSide - 30 + playerMomentum;
+                    playerMomentum = -1;
                 }
             }
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide - 10 &&
-                playerMovementY > platformBottom &&
+                playerMovementY >= platformBottom &&
                 playerMovementY < platformTop &&
                 lastPos.Y + 35 > platformBottom &&
-                lastPos.X + 30 > platformLeftSide) //platform player can't move through (right)
+                lastPos.X > platformLeftSide) //platform player can't move through (right)
             {
                 if (playerMomentum < 0)
                 {
-                    playerMovementX = platformRightSide;
+                    playerMovementX = platformRightSide + playerMomentum;
+                    playerMoving = platformRightSide + playerMomentum;
                     playerMomentum = 0;
-                    playerMoving = platformRightSide;
                 }
             }
         }
