@@ -30,6 +30,7 @@ namespace ITTD
         GameState gameState;
         Background.Maps maps;
         int counterTimer = 0;
+        int bulletCounterTimer = 0;
         double playerMomentum = 0;
         double playerMoving = 0;
         double playerMovementX = 0;
@@ -37,6 +38,9 @@ namespace ITTD
         double playerMovingUp = 0;
         double playerMovementY = 0;
         Point lastPos = new Point();
+        bool canShoot = true;
+        bool facingLeft = true;
+        List<Bullet> bullets = new List<Bullet>();
 
 
         Point P1Start;
@@ -209,7 +213,27 @@ namespace ITTD
 
                     Player.update(playerMovementX, playerMovementY);
                 }
+                
+                //shoot a bullet
+                if (canShoot == true)
+                {
+                    if (Keyboard.IsKeyDown(Key.Enter))
+                    {
+                        bullets.Add(new Bullet(canvas, facingLeft, playerMovementX, playerMovementY));
+                        canShoot = false;
+                    }
+                }
 
+                //set delay in shots
+                if (canShoot == false)
+                {
+                    bulletCounterTimer++;
+                    if (bulletCounterTimer == 60)
+                    {
+                        canShoot = true;
+                        bulletCounterTimer = 0;
+                    }
+                }
             }
 
             if (gameState == GameState.GameOver)
