@@ -154,6 +154,11 @@ namespace ITTD
 
             if (gameState == GameState.GameOn)
             {
+
+                
+                lastPos.X = playerMovementX;
+                lastPos.Y = playerMovementY;
+
                 //slow down player when not moving
                 if (counterTimer % 2 == 0)
                 {
@@ -207,10 +212,15 @@ namespace ITTD
                     passThroughPlatform(300, 500, 230, 240);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     solidPlatform(250, 550, 170, 190);
-                    lastPos.X = playerMovementX;
-                    lastPos.Y = playerMovementY;
+                    //   lastPos.X = playerMovementX;
+                    // lastPos.Y = playerMovementY;
+                    /*Troubleshooting*?
+                                     */
+                    if (playerMovementX > 500)
+                    {
+                        Console.WriteLine("Fail");
+                    }
 
-                    
 
                     Player.update(canvas, playerMovementX, playerMovementY);
                 }
@@ -245,7 +255,10 @@ namespace ITTD
 
         private void passThroughPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
         {
-            if (playerMovementX >= platformLeftSide - 30 && playerMovementX <= platformRightSide && playerMovementY > platformBottom && playerMovementY < platformTop) //platform player can move through
+            if (playerMovementX >= platformLeftSide - 30 && 
+                playerMovementX <= platformRightSide && 
+                playerMovementY > platformBottom && 
+                playerMovementY < platformTop) //platform player can move through
             {
                 if (playerMomentumUp <= 0)
                 {
@@ -260,7 +273,7 @@ namespace ITTD
         {
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide &&
-                playerMovementY > platformBottom &&
+                playerMovementY >= platformBottom &&
                 playerMovementY < platformTop &&
                 lastPos.Y >= platformTop) //platform player can't move through (top)
             {
@@ -273,7 +286,7 @@ namespace ITTD
             }
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide &&
-                playerMovementY > platformBottom - 35 &&
+                playerMovementY >= platformBottom - 35 &&
                 playerMovementY < platformTop &&
                 lastPos.Y + 35 <= platformBottom) //platform player can't move through (bottom)
             {
@@ -288,21 +301,21 @@ namespace ITTD
                 playerMovementX <= platformRightSide - 10 &&
                 playerMovementY >= platformBottom &&
                 playerMovementY < platformTop &&
-                lastPos.Y + 35 > platformBottom &&
+                lastPos.Y + 35 >= platformBottom &&
                 lastPos.X + 30 > platformLeftSide) //platform player can't move through (left)
             {
                 if (playerMomentum > 0)
                 {
                     playerMovementX = platformLeftSide - 30 + playerMomentum;
                     playerMoving = platformLeftSide - 30 + playerMomentum;
-                    playerMomentum = -1;
+                    playerMomentum = 0;
                 }
             }
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide - 10 &&
                 playerMovementY >= platformBottom &&
                 playerMovementY < platformTop &&
-                lastPos.Y + 35 > platformBottom &&
+                lastPos.Y + 35 >= platformBottom &&
                 lastPos.X > platformLeftSide) //platform player can't move through (right)
             {
                 if (playerMomentum < 0)
