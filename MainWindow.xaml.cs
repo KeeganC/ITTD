@@ -211,7 +211,7 @@ namespace ITTD
                     Line9.Fill = Brushes.LightBlue;
                     canvas.Children.Add(Line9);
 
-                    Player.update(playerMovementX, playerMovementY);
+                    Player.update(canvas, playerMovementX, playerMovementY);
                 }
                 
                 //shoot a bullet
