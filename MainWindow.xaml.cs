@@ -245,6 +245,13 @@ namespace ITTD
                         bulletCounterTimer = 0;
                     }
                 }
+                //update bullet location
+                 foreach (Bullet b in bullets)
+                 {
+                     b.update();
+                 }
+ 
+                }
             }
 
             if (gameState == GameState.GameOver)
