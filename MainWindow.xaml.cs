@@ -40,11 +40,24 @@ namespace ITTD
         Point lastPos = new Point();
         bool canShoot = true;
         bool facingLeft = true;
+        int bulletCounterTimer2 = 0;
+        double player2Momentum = 0;
+        double player2Moving = 0;
+        double player2MovementX = 0;
+        double player2MomentumUp = 0;
+        double player2MovingUp = 0;
+        double player2MovementY = 0;
+        Point lastPos2 = new Point();
+        bool canShoot2 = true;
+        bool facingLeft2 = true;
         List<Bullet> bullets = new List<Bullet>();
+        
 
 
         Point P1Start;
+        Point P2Start;
         Player Player = new Player();
+        Player Player2 = new Player();
 
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
@@ -65,12 +78,7 @@ namespace ITTD
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
             gameState = GameState.SplashScreen;
-
-            //place character
-            P1Start.X = 0;
-            P1Start.Y = 0;
-            Player.createPlayer(canvas, P1Start, 1);
-
+            
         }
 
         public void setupGame()
@@ -79,6 +87,14 @@ namespace ITTD
             map.drawMap1(canvas);
             maps = ITTD.Background.Maps.Map1;
             gameState = GameState.GameOn;
+
+            //place character
+            P1Start.X = 0;
+            P1Start.Y = 0;
+            P2Start.X = 770;
+            P2Start.Y = 0;
+            Player.createPlayer(canvas, P1Start, 1);
+            Player2.createPlayer(canvas, P2Start, 2);
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -109,19 +125,25 @@ namespace ITTD
                         playerMomentum--;
                     }
 
-                    if (playerMovementY > 10)
+                    //gravity
+                    if (playerMovementY > 1)
                     {
-                        playerMomentumUp--;
+                        //max fall speed
+                        if (playerMomentumUp >= -7)
+                        {
+                            playerMomentumUp--;
+                        }
                     }
                     else if (playerMomentumUp <= 0)
                     {
                         playerMomentumUp = 0;
                     }
                 }
+
                 if (maps == ITTD.Background.Maps.Map1)
                 {
-                    playerMomentum = Player.addMomentum(playerMomentum);
-                    playerMomentumUp = Player.addMomentumUp(playerMomentumUp);
+                    playerMomentum = Player.addMomentum(playerMomentum, 1);
+                    playerMomentumUp = Player.addMomentumUp(playerMomentumUp, 1);
 
                     playerMoving += playerMomentum;
                     if (playerMovementX < 0) //wall cycle to oposite wall
@@ -150,18 +172,13 @@ namespace ITTD
                     passThroughPlatform(300, 500, 230, 240);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     solidPlatform(250, 550, 170, 190);
-                    //   lastPos.X = playerMovementX;
-                    // lastPos.Y = playerMovementY;
-                    /*Troubleshooting*?
-                                     */
-                    if (playerMovementX > 500)
-                    {
-                        Console.WriteLine("Fail");
-                    }
-
+                    
 
                     Player.update(canvas, playerMovementX, playerMovementY);
                 }
+
+                //check which way player is facing
+                facingLeft = Player.facingLeft;
 
                 //shoot a bullet
                 if (canShoot == true)
@@ -183,12 +200,115 @@ namespace ITTD
                         bulletCounterTimer = 0;
                     }
                 }
+
+
+
+
+
+
+                //Player 2
+
+
+
+
+                lastPos2.X = player2MovementX;
+                lastPos2.Y = player2MovementY;
+
+                //slow down player when not moving
+                if (counterTimer % 2 == 0)
+                {
+                    if (player2Momentum < 0)
+                    {
+                        player2Momentum++;
+                    }
+                    if (player2Momentum > 0)
+                    {
+                        player2Momentum--;
+                    }
+
+                    //gravity
+                    if (player2MovementY > 1)
+                    {
+                        //max fall speed
+                        if (player2MomentumUp >= -7)
+                        {
+                            player2MomentumUp--;
+                        }
+                    }
+                    else if (player2MomentumUp <= 0)
+                    {
+                        player2MomentumUp = 0;
+                    }
+                }
+
+                if (maps == ITTD.Background.Maps.Map1)
+                {
+                    player2Momentum = Player2.addMomentum(player2Momentum, 2);
+                    player2MomentumUp = Player2.addMomentumUp(player2MomentumUp, 2);
+
+                    player2Moving += player2Momentum;
+                    if (player2MovementX < 0) //wall cycle to oposite wall
+                    {
+                        player2Moving = 30;
+                    }
+                    if (player2Moving > 30)
+                    {
+                        player2Moving = -770;
+                    }
+
+                    //adjusts player's location based on momentum
+                    player2Moving += player2Momentum;
+                    player2MovementX = P2Start.X + player2Moving;
+
+                    player2MovingUp += player2MomentumUp;
+                    player2MovementY = P2Start.Y + player2MovingUp;
+                    if (player2MovementY < 20) //floor collision
+                    {
+                        player2MovementY = 20;
+                        player2MomentumUp = 1;
+                    }
+
+                    passThroughPlatform(100, 200, 100, 110);
+                    passThroughPlatform(600, 700, 100, 110);
+                    passThroughPlatform(300, 500, 230, 240);
+                    solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
+                    solidPlatform(250, 550, 170, 190);
+
+
+                    Player2.update(canvas, player2MovementX, player2MovementY);
+                }
+
+                //check which way player is facing
+                facingLeft2 = Player2.facingLeft;
+
+                //shoot a bullet
+                if (canShoot2 == true)
+                {
+                    if (Keyboard.IsKeyDown(Key.Space))
+                    {
+                        bullets.Add(new Bullet(canvas, facingLeft2, player2MovementX, player2MovementY));
+                        canShoot2 = false;
+                    }
+                }
+
+                //set delay in shots
+                if (canShoot2 == false)
+                {
+                    bulletCounterTimer2++;
+                    if (bulletCounterTimer2 == 60)
+                    {
+                        canShoot2 = true;
+                        bulletCounterTimer2 = 0;
+                    }
+                }
+
                 //update bullet location
                 foreach (Bullet b in bullets)
                 {
                     b.update();
+                    b.removeBullets();
+                    b.hitPlayerCheck(playerMovementX, playerMovementY);
                 }
-
             }
             if (gameState == GameState.GameOver)
             {
@@ -196,8 +316,9 @@ namespace ITTD
             }
         }
 
-    private void passThroughPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
+        private void passThroughPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
         {
+            //p1
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide &&
                 playerMovementY > platformBottom &&
@@ -211,12 +332,28 @@ namespace ITTD
                     playerMovingUp = platformTop;
                 }
             }
+
+            //p2
+            if (player2MovementX >= platformLeftSide - 30 &&
+                player2MovementX <= platformRightSide &&
+                player2MovementY > platformBottom &&
+                player2MovementY <= platformTop &&
+                lastPos2.Y >= platformTop) //platform player can't move through (top)
+            {
+                if (player2MomentumUp <= 0)
+                {
+                    player2MovementY = platformTop;
+                    player2MomentumUp = 0;
+                    player2MovingUp = platformTop;
+                }
+            }
         }
         private void solidPlatform(double platformLeftSide, double platformRightSide, double platformBottom, double platformTop)
         {
-            if (playerMovementX >= platformLeftSide - 30 && 
-                playerMovementX <= platformRightSide && 
-                playerMovementY > platformBottom && 
+            //p1
+            if (playerMovementX >= platformLeftSide - 30 &&
+                playerMovementX <= platformRightSide &&
+                playerMovementY > platformBottom &&
                 playerMovementY < platformTop &&
                 lastPos.Y >= platformTop) //platform player can't move through (top)
             {
@@ -227,9 +364,9 @@ namespace ITTD
                     playerMovingUp = platformTop;
                 }
             }
-            if (playerMovementX >= platformLeftSide - 30 && 
-                playerMovementX <= platformRightSide && 
-                playerMovementY > platformBottom - 35 && 
+            if (playerMovementX >= platformLeftSide - 30 &&
+                playerMovementX <= platformRightSide &&
+                playerMovementY > platformBottom - 35 &&
                 playerMovementY < platformTop &&
                 lastPos.Y + 35 <= platformBottom) //platform player can't move through (bottom)
             {
@@ -240,9 +377,9 @@ namespace ITTD
                     playerMovingUp = platformBottom - 35;
                 }
             }
-            if (playerMovementX >= platformLeftSide - 30 && 
-                playerMovementX <= platformRightSide - 10 && 
-                playerMovementY >= platformBottom && 
+            if (playerMovementX >= platformLeftSide - 30 &&
+                playerMovementX <= platformRightSide - 10 &&
+                playerMovementY >= platformBottom &&
                 playerMovementY < platformTop &&
                 lastPos.Y + 35 > platformBottom &&
                 lastPos.X + 30 > platformLeftSide) //platform player can't move through (left)
@@ -280,6 +417,76 @@ namespace ITTD
                     playerMovementX = platformRightSide + playerMomentum;
                     playerMoving = platformRightSide + playerMomentum;
                     playerMomentum = 0;
+                }
+            }
+
+            //p2
+            if (player2MovementX >= platformLeftSide - 30 &&
+                player2MovementX <= platformRightSide &&
+                player2MovementY > platformBottom &&
+                player2MovementY < platformTop &&
+                lastPos2.Y >= platformTop) //platform player can't move through (top)
+            {
+                if (player2MomentumUp <= 0)
+                {
+                    player2MovementY = platformTop;
+                    player2MomentumUp = 0;
+                    player2MovingUp = platformTop;
+                }
+            }
+            if (player2MovementX >= platformLeftSide - 30 &&
+                player2MovementX <= platformRightSide &&
+                player2MovementY > platformBottom - 35 &&
+                player2MovementY < platformTop &&
+                lastPos2.Y + 35 <= platformBottom) //platform player can't move through (bottom)
+            {
+                if (player2MomentumUp > 0)
+                {
+                    player2MovementY = platformBottom - 35;
+                    player2MomentumUp = 0;
+                    player2MovingUp = platformBottom - 35;
+                }
+            }
+            if (player2MovementX >= platformLeftSide - 30 &&
+                player2MovementX <= platformRightSide - 10 &&
+                player2MovementY >= platformBottom &&
+                player2MovementY < platformTop &&
+                lastPos2.Y + 35 > platformBottom &&
+                lastPos2.X + 30 > platformLeftSide) //platform player can't move through (left)
+            {
+                if (player2Momentum > 0)
+                {
+                    player2MovementX = platformLeftSide - 30 + player2Momentum;
+                    player2Moving = platformLeftSide - 30 + player2Momentum;
+                    player2Momentum = 0;
+                }
+            }
+            if (player2MovementX >= platformLeftSide - 30 &&
+                player2MovementX <= platformRightSide - 10 &&
+                player2MovementY >= platformBottom - 35 &&
+                player2MovementY < platformTop - 35 &&
+                lastPos2.Y > platformBottom &&
+                lastPos2.X + 30 > platformLeftSide) //platform player can't move through (left) (additional)
+            {
+                if (player2Momentum > 0)
+                {
+                    player2MovementX = platformLeftSide - 30 + player2Momentum;
+                    player2Moving = platformLeftSide - 30 + player2Momentum;
+                    player2Momentum = 0;
+                }
+            }
+            if (player2MovementX >= platformLeftSide + 10 &&
+                player2MovementX <= platformRightSide &&
+                player2MovementY >= platformBottom &&
+                player2MovementY < platformTop &&
+                lastPos2.Y + 35 > platformBottom &&
+                lastPos2.X > platformLeftSide) //platform player can't move through (right)
+            {
+                if (player2Momentum < 0)
+                {
+                    player2MovementX = platformRightSide + player2Momentum;
+                    player2Moving = platformRightSide + player2Momentum;
+                    player2Momentum = 0;
                 }
             }
         }
