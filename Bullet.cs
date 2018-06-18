@@ -17,7 +17,7 @@ namespace ITTD
         double bulletY;
         public Rectangle bullet;
         bool movingLeft = true;
-        bool hitPlayer = false;
+        int hitPlayer = 0;
         Canvas canvas;
 
         public Bullet(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
@@ -71,12 +71,20 @@ namespace ITTD
         }
 
         //Check Collision
-        public void hitPlayerCheck(double hitboxX, double hitboxY)
+        public int hitPlayerCheck(double hitboxX, double hitboxY, double hitbox2X, double hitbox2Y)
         {
+            hitPlayer = 0;
             if (bulletX > hitboxX && bulletX < hitboxX + 30 && bulletY > hitboxY && bulletY < hitboxY + 35)
             {
-                MessageBox.Show("Game Over man, Game Over");
+                MessageBox.Show("Game Over man, Game Over\r\nP2 wins");
+                hitPlayer = 1;
             }
+            if (bulletX > hitbox2X && bulletX < hitbox2X + 30 && bulletY > hitbox2Y && bulletY < hitbox2Y + 35)
+            {
+                MessageBox.Show("Game Over man, Game Over\r\nP1 wins");
+                hitPlayer = 2;
+            }
+            return hitPlayer;
         }
     }
 }
