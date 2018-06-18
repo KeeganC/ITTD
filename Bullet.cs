@@ -14,7 +14,10 @@ namespace ITTD
     class Bullet
     {
         double bulletX;
+        double bulletY;
         public Rectangle bullet;
+        bool movingLeft = true;
+        bool hitPlayer = false;
         Canvas canvas;
 
         public Bullet(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
@@ -36,18 +39,44 @@ namespace ITTD
             {
                 bulletX = gunBarrelX - 5;
             }
+            bulletY = gunBarrelY + 15;
             canvas.Children.Add(bullet);
             Canvas.SetLeft(bullet, bulletX);
-            Canvas.SetBottom(bullet, gunBarrelY + 15);
+            Canvas.SetBottom(bullet, bulletY);
+
+            movingLeft = facingLeft;
         }
+
+        //move bullet
         public void update()
         {
-            bulletX += 10;
-            Canvas.SetLeft(bullet, bulletX); 
+            if (movingLeft == true)
+            {
+                bulletX -= 20;
+            }
+            else
+            {
+                bulletX += 20;
+            }
+            Canvas.SetLeft(bullet, bulletX);
         }
-        public void removeBullet()
+
+        //remove bullet when it hits something
+        public void removeBullets()
         {
-            canvas.Children.Remove(bullet);
+            if (bulletX > 800 || bulletX < 0)
+            {
+                canvas.Children.Remove(bullet);
+            }
+        }
+
+        //Check Collision
+        public void hitPlayerCheck(double hitboxX, double hitboxY)
+        {
+            if (bulletX > hitboxX && bulletX < hitboxX + 30 && bulletY > hitboxY && bulletY < hitboxY + 35)
+            {
+                MessageBox.Show("Game Over man, Game Over");
+            }
         }
     }
 }
