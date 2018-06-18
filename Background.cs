@@ -45,35 +45,38 @@ namespace ITTD
             locPlatform.X = c.Width / 2 - 50;
             drawPlatform(c, locPlatform, 100, solidWallCube, 70); //solidcube
 
-            locPlatform.X = 100;
+            locPlatform.X = 200;
             locPlatform.Y = 100;
             drawPlatform(c, locPlatform, 100, platformCentre, 10);
             drawPlatform(c, locPlatform, 6, platformLeftSide, 10);
-            locPlatform.X = 200 - 6;
+            locPlatform.X = 300 - 6;
             drawPlatform(c, locPlatform, 6, platformRightSide, 10); //platform
 
 
-            locPlatform.X = 600;
+            locPlatform.X = 500;
             drawPlatform(c, locPlatform, 100, platformCentre, 10);
             drawPlatform(c, locPlatform, 6, platformLeftSide, 10);
-            locPlatform.X = 700 - 6;
+            locPlatform.X = 600 - 6;
             drawPlatform(c, locPlatform, 6, platformRightSide, 10); //platform
 
-            locPlatform.X = 250;
-            locPlatform.Y = 170;
-            drawPlatform(c, locPlatform, 300, solidWallCentre, 20);
+            locPlatform.X = 150;
+            locPlatform.Y = 220;
+            drawPlatform(c, locPlatform, 500, solidWallCentre, 20);
             drawPlatform(c, locPlatform, 14, solidWallLeftSide, 20);
-            locPlatform.X = 550 - 14;
-            drawPlatform(c, locPlatform, 14, solidWallRightSide, 20);
+            locPlatform.X = 650 - 14;
+            drawPlatform(c, locPlatform, 14, solidWallRightSide, 20); //solidplatform
 
-            locPlatform.X = 300;
-            locPlatform.Y = 230;
-            drawPlatform(c, locPlatform, 200, platformCentre, 10); //platform
-            drawPlatform(c, locPlatform, 6, platformLeftSide, 10);
-            locPlatform.X = 500 - 6;
-            drawPlatform(c, locPlatform, 6, platformRightSide, 10);
+            locPlatform.X = 0;
+            locPlatform.Y = 150;
+            drawPlatform(c, locPlatform, 100, solidWallCentre, 20);
+            locPlatform.X = 100 - 14;
+            drawPlatform(c, locPlatform, 14, solidWallRightSide, 20); //solidplatform
+
+            locPlatform.X = c.Width - 100;
+            drawPlatform(c, locPlatform, 100, solidWallCentre, 20);
+            drawPlatform(c, locPlatform, 14, solidWallLeftSide, 20); //solidplatform
         }
     }
-    
+
 
 }
