@@ -312,7 +312,7 @@ namespace ITTD
                 {
                     b.update();
                     b.removeBullets();
-                    hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY);
+                    hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
                 
                 //Scoring 
