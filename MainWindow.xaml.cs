@@ -31,6 +31,9 @@ namespace ITTD
         Background.Maps maps;
         int counterTimer = 0;
         int bulletCounterTimer = 0;
+        int hitPlayer = 0; 
+        int playerLives = 3; 
+        int player2Lives = 3; 
         double playerMomentum = 0;
         double playerMoving = 0;
         double playerMovementX = 0;
@@ -184,7 +187,7 @@ namespace ITTD
                 //shoot a bullet
                 if (canShoot == true)
                 {
-                    if (Keyboard.IsKeyDown(Key.Enter))
+                    if (Keyboard.IsKeyDown(Key.Space))
                     {
                         bullets.Add(new Bullet(canvas, facingLeft, playerMovementX, playerMovementY));
                         canShoot = false;
@@ -286,7 +289,7 @@ namespace ITTD
                 //shoot a bullet
                 if (canShoot2 == true)
                 {
-                    if (Keyboard.IsKeyDown(Key.Space))
+                    if (Keyboard.IsKeyDown(Key.Enter))
                     {
                         bullets.Add(new Bullet(canvas, facingLeft2, player2MovementX, player2MovementY));
                         canShoot2 = false;
@@ -309,7 +312,17 @@ namespace ITTD
                 {
                     b.update();
                     b.removeBullets();
-                    b.hitPlayerCheck(playerMovementX, playerMovementY);
+                    hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY);
+                }
+                
+                //Scoring 
+                if (hitPlayer == 1)
+                {
+                    playerLives -= 1;
+                }
+                if (hitPlayer == 2)
+                {
+                    player2Lives -= 1;
                 }
             }
             if (gameState == GameState.GameOver)
