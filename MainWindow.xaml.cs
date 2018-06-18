@@ -31,9 +31,9 @@ namespace ITTD
         Background.Maps maps;
         int counterTimer = 0;
         int bulletCounterTimer = 0;
-        int hitPlayer = 0; 
-        int playerLives = 3; 
-        int player2Lives = 3; 
+        int hitPlayer = 0;
+        int playerLives = 3;
+        int player2Lives = 3;
         double playerMomentum = 0;
         double playerMoving = 0;
         double playerMovementX = 0;
@@ -54,7 +54,6 @@ namespace ITTD
         bool canShoot2 = true;
         bool facingLeft2 = true;
         List<Bullet> bullets = new List<Bullet>();
-        Point P2realstart = new Point(770, 0);
 
 
 
@@ -98,7 +97,9 @@ namespace ITTD
             P2Start.X = 0;
             P2Start.Y = 0;
             Player.createPlayer(canvas, P1Start, 1);
-            Player2.createPlayer(canvas, P2realstart, 2);
+            Player2.createPlayer(canvas, P2Start, 2);
+            player2MovementX = 770;
+            player2Moving = 770;
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -113,7 +114,7 @@ namespace ITTD
             if (gameState == GameState.GameOn)
             {
 
-
+                
                 lastPos.X = playerMovementX;
                 lastPos.Y = playerMovementY;
 
@@ -170,12 +171,12 @@ namespace ITTD
                         playerMovementY = 20;
                         playerMomentumUp = 1;
                     }
-
-                    passThroughPlatform(100, 200, 100, 110);
-                    passThroughPlatform(600, 700, 100, 110);
-                    passThroughPlatform(300, 500, 230, 240);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
-                    solidPlatform(250, 550, 170, 190);
+                    passThroughPlatform(200, 300, 100, 110);
+                    passThroughPlatform(500, 600, 100, 110);
+                    solidPlatform(0, 100, 150, 170);
+                    solidPlatform(canvas.Width - 100, canvas.Width, 150, 170);
+                    solidPlatform(150, 650, 220, 240);
 
 
                     Player.update(canvas, playerMovementX, playerMovementY);
@@ -198,7 +199,7 @@ namespace ITTD
                 if (canShoot == false)
                 {
                     bulletCounterTimer++;
-                    if (bulletCounterTimer == 60)
+                    if (bulletCounterTimer == 20)
                     {
                         canShoot = true;
                         bulletCounterTimer = 0;
@@ -272,11 +273,12 @@ namespace ITTD
                         player2MomentumUp = 1;
                     }
 
-                    passThroughPlatform(100, 200, 100, 110);
-                    passThroughPlatform(600, 700, 100, 110);
-                    passThroughPlatform(300, 500, 230, 240);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
-                    solidPlatform(250, 550, 170, 190);
+                    passThroughPlatform(200, 300, 100, 110);
+                    passThroughPlatform(500, 600, 100, 110);
+                    solidPlatform(0, 100, 150, 170);
+                    solidPlatform(canvas.Width - 100, canvas.Width, 150, 170);
+                    solidPlatform(150, 650, 220, 240);
 
 
                     Player2.update(canvas, player2MovementX, player2MovementY);
@@ -300,7 +302,7 @@ namespace ITTD
                 if (canShoot2 == false)
                 {
                     bulletCounterTimer2++;
-                    if (bulletCounterTimer2 == 60)
+                    if (bulletCounterTimer2 == 20)
                     {
                         canShoot2 = true;
                         bulletCounterTimer2 = 0;
@@ -314,7 +316,7 @@ namespace ITTD
                     b.removeBullets();
                     hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
-                
+
                 //Scoring 
                 if (hitPlayer == 1)
                 {
@@ -434,6 +436,7 @@ namespace ITTD
                     playerMomentum = 0;
                 }
             }
+
 
             //p2
             if (player2MovementX >= platformLeftSide - 30 &&
