@@ -44,27 +44,6 @@ namespace ITTD
             int speedcap = 7;
             //apply force in a certain direction
             if (playerNum == 1)
-            { 
-                if (Keyboard.IsKeyDown(Key.Left))
-                {
-                  facingLeft = true;
-                   playerMomentum -= 1;
-                   if (playerMomentum < -speedcap)//speedcap left
-                    {
-                     playerMomentum = -speedcap;
-                    }
-                }
-                if (Keyboard.IsKeyDown(Key.Right))
-                {
-                    facingLeft = false;
-                    playerMomentum += 1;
-                    if (playerMomentum > speedcap)//speedcap right
-                    {
-                       playerMomentum = speedcap;
-                   }
-                }
-            }
-            if (playerNum == 2)
             {
                 if (Keyboard.IsKeyDown(Key.A))
                 {
@@ -85,31 +64,33 @@ namespace ITTD
                     }
                 }
             }
+            if (playerNum == 2)
+            {
+                if (Keyboard.IsKeyDown(Key.Left))
+                {
+                    facingLeft = true;
+                    playerMomentum -= 1;
+                    if (playerMomentum < -speedcap)//speedcap left
+                    {
+                        playerMomentum = -speedcap;
+                    }
+                }
+                if (Keyboard.IsKeyDown(Key.Right))
+                {
+                    facingLeft = false;
+                    playerMomentum += 1;
+                    if (playerMomentum > speedcap)//speedcap right
+                    {
+                        playerMomentum = speedcap;
+                    }
+                }
+            }
             return playerMomentum;
         }
 
         public double addMomentumUp(double playerMomentumUp, int playerNum)
         {
             if (playerNum == 1)
-            {
-                counterTimer++;
-
-                //apply force upwards
-                if (Keyboard.IsKeyDown(Key.Up))
-                {
-                    if (canJump == true)
-                    {
-                        playerMomentumUp += 10;
-                        canJump = false;
-                        counterTimer = 0;
-                    }
-                }
-                if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.Up))
-                {
-                    canJump = true;
-                }
-            }
-            if (playerNum == 2)
             {
                 counterTimer++;
 
@@ -124,6 +105,25 @@ namespace ITTD
                     }
                 }
                 if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.W))
+                {
+                    canJump = true;
+                }
+            }
+            if (playerNum == 2)
+            {
+                counterTimer++;
+
+                //apply force upwards
+                if (Keyboard.IsKeyDown(Key.Up))
+                {
+                    if (canJump == true)
+                    {
+                        playerMomentumUp += 10;
+                        canJump = false;
+                        counterTimer = 0;
+                    }
+                }
+                if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.Up))
                 {
                     canJump = true;
                 }
