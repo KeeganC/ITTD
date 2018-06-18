@@ -51,7 +51,8 @@ namespace ITTD
         bool canShoot2 = true;
         bool facingLeft2 = true;
         List<Bullet> bullets = new List<Bullet>();
-        
+        Point P2realstart = new Point(770, 0);
+
 
 
         Point P1Start;
@@ -78,7 +79,7 @@ namespace ITTD
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
             gameTimer.Start();
             gameState = GameState.SplashScreen;
-            
+
         }
 
         public void setupGame()
@@ -91,10 +92,10 @@ namespace ITTD
             //place character
             P1Start.X = 0;
             P1Start.Y = 0;
-            P2Start.X = 770;
+            P2Start.X = 0;
             P2Start.Y = 0;
             Player.createPlayer(canvas, P1Start, 1);
-            Player2.createPlayer(canvas, P2Start, 2);
+            Player2.createPlayer(canvas, P2realstart, 2);
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -150,7 +151,7 @@ namespace ITTD
                     {
                         playerMoving = 800;
                     }
-                    if (playerMoving > 800)
+                    if (playerMoving > 770)
                     {
                         playerMoving = 0;
                     }
@@ -172,7 +173,7 @@ namespace ITTD
                     passThroughPlatform(300, 500, 230, 240);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     solidPlatform(250, 550, 170, 190);
-                    
+
 
                     Player.update(canvas, playerMovementX, playerMovementY);
                 }
@@ -249,11 +250,11 @@ namespace ITTD
                     player2Moving += player2Momentum;
                     if (player2MovementX < 0) //wall cycle to oposite wall
                     {
-                        player2Moving = 30;
+                        player2Moving = 770;
                     }
-                    if (player2Moving > 30)
+                    if (player2Moving > 770)
                     {
-                        player2Moving = -770;
+                        player2Moving = 0;
                     }
 
                     //adjusts player's location based on momentum
@@ -276,6 +277,7 @@ namespace ITTD
 
 
                     Player2.update(canvas, player2MovementX, player2MovementY);
+                    Console.WriteLine(player2MovementX.ToString());
                 }
 
                 //check which way player is facing
@@ -322,14 +324,14 @@ namespace ITTD
             if (playerMovementX >= platformLeftSide - 30 &&
                 playerMovementX <= platformRightSide &&
                 playerMovementY > platformBottom &&
-                playerMovementY <= platformTop &&
-                lastPos.Y >= platformTop) //platform player can't move through (top)
+                playerMovementY <= platformTop - 1 &&
+                lastPos.Y >= platformTop - 1) //platform player can't move through (top)
             {
                 if (playerMomentumUp <= 0)
                 {
-                    playerMovementY = platformTop;
+                    playerMovementY = platformTop - 1;
                     playerMomentumUp = 0;
-                    playerMovingUp = platformTop;
+                    playerMovingUp = platformTop - 1;
                 }
             }
 
@@ -337,14 +339,14 @@ namespace ITTD
             if (player2MovementX >= platformLeftSide - 30 &&
                 player2MovementX <= platformRightSide &&
                 player2MovementY > platformBottom &&
-                player2MovementY <= platformTop &&
-                lastPos2.Y >= platformTop) //platform player can't move through (top)
+                player2MovementY <= platformTop - 1 &&
+                lastPos2.Y >= platformTop - 1) //platform player can't move through (top)
             {
                 if (player2MomentumUp <= 0)
                 {
-                    player2MovementY = platformTop;
+                    player2MovementY = platformTop - 1;
                     player2MomentumUp = 0;
-                    player2MovingUp = platformTop;
+                    player2MovingUp = platformTop - 1;
                 }
             }
         }
