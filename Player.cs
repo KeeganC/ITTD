@@ -39,48 +39,94 @@ namespace ITTD
             Canvas.SetBottom(rctPlayer, playerMovementY);
         }
 
-        public double addMomentum(double playerMomentum)
+        public double addMomentum(double playerMomentum, int playerNum)
         {
             int speedcap = 7;
             //apply force in a certain direction
-            if (Keyboard.IsKeyDown(Key.Left))
-            {
-                facingLeft = true;
-                playerMomentum -= 1;
-                if (playerMomentum < -speedcap)//speedcap left
+            if (playerNum == 1)
+            { 
+                if (Keyboard.IsKeyDown(Key.Left))
                 {
-                    playerMomentum = -speedcap;
+                  facingLeft = true;
+                   playerMomentum -= 1;
+                   if (playerMomentum < -speedcap)//speedcap left
+                    {
+                     playerMomentum = -speedcap;
+                    }
+                }
+                if (Keyboard.IsKeyDown(Key.Right))
+                {
+                    facingLeft = false;
+                    playerMomentum += 1;
+                    if (playerMomentum > speedcap)//speedcap right
+                    {
+                       playerMomentum = speedcap;
+                   }
                 }
             }
-            if (Keyboard.IsKeyDown(Key.Right))
+            if (playerNum == 2)
             {
-                facingLeft = false;
-                playerMomentum += 1;
-                if (playerMomentum > speedcap)//speedcap right
+                if (Keyboard.IsKeyDown(Key.A))
                 {
-                    playerMomentum = speedcap;
+                    facingLeft = true;
+                    playerMomentum -= 1;
+                    if (playerMomentum < -speedcap)//speedcap left
+                    {
+                        playerMomentum = -speedcap;
+                    }
+                }
+                if (Keyboard.IsKeyDown(Key.D))
+                {
+                    facingLeft = false;
+                    playerMomentum += 1;
+                    if (playerMomentum > speedcap)//speedcap right
+                    {
+                        playerMomentum = speedcap;
+                    }
                 }
             }
             return playerMomentum;
         }
 
-        public double addMomentumUp(double playerMomentumUp)
+        public double addMomentumUp(double playerMomentumUp, int playerNum)
         {
-            counterTimer++;
-
-            //apply force upwards
-            if (Keyboard.IsKeyDown(Key.Up))
+            if (playerNum == 1)
             {
-                if (canJump == true)
+                counterTimer++;
+
+                //apply force upwards
+                if (Keyboard.IsKeyDown(Key.Up))
                 {
-                    playerMomentumUp += 10;
-                    canJump = false;
-                    counterTimer = 0;
+                    if (canJump == true)
+                    {
+                        playerMomentumUp += 10;
+                        canJump = false;
+                        counterTimer = 0;
+                    }
+                }
+                if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.Up))
+                {
+                    canJump = true;
                 }
             }
-            if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.Up))
+            if (playerNum == 2)
             {
-                canJump = true;
+                counterTimer++;
+
+                //apply force upwards
+                if (Keyboard.IsKeyDown(Key.W))
+                {
+                    if (canJump == true)
+                    {
+                        playerMomentumUp += 10;
+                        canJump = false;
+                        counterTimer = 0;
+                    }
+                }
+                if (counterTimer >= 19 && Keyboard.IsKeyUp(Key.W))
+                {
+                    canJump = true;
+                }
             }
             return playerMomentumUp;
         }
