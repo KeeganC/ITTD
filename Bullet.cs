@@ -77,7 +77,7 @@ namespace ITTD
                     bulletX = 901;
                 }
             }
-            
+
         }
 
         //Check player Collision
@@ -90,13 +90,13 @@ namespace ITTD
             {
                 if (bulletX > hitboxX && bulletX < hitboxX + 30 && bulletY > hitboxY && bulletY < hitboxY + 35)
                 {
-                    MessageBox.Show("Game Over man, Game Over\r\nP2 wins");
+                    //NIU MessageBox.Show("Game Over man, Game Over\r\nP2 wins");
                     hitPlayer = 1;
                     hitDelay = 0;
                 }
                 if (bulletX > hitbox2X && bulletX < hitbox2X + 30 && bulletY > hitbox2Y && bulletY < hitbox2Y + 35)
                 {
-                    MessageBox.Show("Game Over man, Game Over\r\nP1 wins");
+                    //NIU MessageBox.Show("Game Over man, Game Over\r\nP1 wins");
                     hitPlayer = 2;
                     hitDelay = 0;
                 }
