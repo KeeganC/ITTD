@@ -14,6 +14,19 @@
                 </ImageBrush.ImageSource>
             </ImageBrush>
         </Canvas.Background>
+        <Label 
+            x:Name="lblP1Lives"
+            Content="P1 Lives: " 
+            Height="40" 
+            Width="120"
+            FontSize="20" FontFamily="Segoe UI Black"/>
+        <Label 
+            x:Name="lblP2Lives"
+            Content="P2 Lives: " 
+            Height="40" 
+            Canvas.Left="680" 
+            Width="120"
+            FontSize="20" FontFamily="Segoe UI Black"/>
     </Canvas>
     <Window.Background>
         <ImageBrush>
