@@ -350,7 +350,16 @@ namespace ITTD
                 foreach (Bullet b in bullets)
                 {
                     b.update();
-                    b.removeBullets();
+                     b.removeBullets(-100, 0, canvas.Height, 0);
+                    b.removeBullets(800, 900, canvas.Height, 0);
+                    b.removeBullets(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
+                    b.removeBullets(0, 100, 150, 170);
+                    b.removeBullets(canvas.Width - 100, canvas.Width, 150, 170);
+                    b.removeBullets(150, 650, 220, 240);
+                    b.removeBullets(300, 500, 300, 320);
+                    b.removeBullets(0, 200, 450, 470);
+                    b.removeBullets(canvas.Width - 200, canvas.Width, 450, 470);
+                    
                     hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
 
