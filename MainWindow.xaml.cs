@@ -43,6 +43,7 @@ namespace ITTD
         Point lastPos = new Point();
         bool canShoot = false;
         bool facingLeft = true;
+        bool P1win = false;
         int bulletCounterTimer2 = 0;
         double player2Momentum = 0;
         double player2Moving = 0;
@@ -53,8 +54,8 @@ namespace ITTD
         Point lastPos2 = new Point();
         bool canShoot2 = false;
         bool facingLeft2 = false;
+        bool P2win = false;
         List<Bullet> bullets = new List<Bullet>();
-
 
 
         Point P1Start;
@@ -69,12 +70,6 @@ namespace ITTD
         public MainWindow()
         {
             InitializeComponent();
-            //splash screen
-            //canvas.Background = new ImageBrush(new BitmapImage(new Uri("TroonSplash.png", UriKind.Relative)));
-
-            //start music
-            //musicPlayer.Open(new Uri("TRON Legacy R3CONF1GUR3D - 06 - C.L.U. (Paul Oakenfold Remix) Daft Punk.mp3", UriKind.Relative));
-            //musicPlayer.Play();
 
             //starts the game timer thingy
             gameTimer.Tick += gameTimer_Tick;
@@ -103,6 +98,7 @@ namespace ITTD
             //reset players
             playerLives = 3;
             player2Lives = 3;
+
             playerMovementX = 1;
             playerMovementY = 0;
             playerMoving = 1;
@@ -115,6 +111,9 @@ namespace ITTD
             player2Momentum = 0;
             player2MomentumUp = 0;
             player2MovingUp = 0;
+
+            P1win = false;
+            P2win = false;
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -123,6 +122,10 @@ namespace ITTD
 
             if (gameState == GameState.SplashScreen)
             {
+                //start music
+                musicPlayer.Open(new Uri("DanceOfThorns.mp3", UriKind.Relative));
+                musicPlayer.Play();
+
                 if (Keyboard.IsKeyDown(Key.Y))
                 {
                     setupGame();
@@ -136,9 +139,7 @@ namespace ITTD
 
             if (gameState == GameState.GameOn)
             {
-                //start music
-                musicPlayer.Open(new Uri("Spacey-Ambient-Electronic-Chill Out-Music--I AM.wav", UriKind.Relative));
-                musicPlayer.Play();
+
 
                 lastPos.X = playerMovementX;
                 lastPos.Y = playerMovementY;
@@ -352,7 +353,7 @@ namespace ITTD
                 foreach (Bullet b in bullets)
                 {
                     b.update();
-                     b.removeBullets(-100, 0, canvas.Height, 0);
+                    b.removeBullets(-100, 0, canvas.Height, 0);
                     b.removeBullets(800, 900, canvas.Height, 0);
                     b.removeBullets(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     b.removeBullets(0, 100, 150, 170);
@@ -361,10 +362,10 @@ namespace ITTD
                     b.removeBullets(300, 500, 300, 320);
                     b.removeBullets(0, 200, 450, 470);
                     b.removeBullets(canvas.Width - 200, canvas.Width, 450, 470);
-                    
+
                     hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
-                
+
                 //Scoring 
                 if (hitPlayer == 1)
                 {
@@ -377,19 +378,44 @@ namespace ITTD
 
                 lblP1Lives.Content = "P1 Lives: " + playerLives.ToString();
                 lblP2Lives.Content = "P2 Lives: " + player2Lives.ToString();
-                
-                if (playerLives == 0 || player2Lives == 0)
+
+                //Game over when lives are gone
+                if (playerLives == 0)
                 {
+                    P2win = true;
+                    gameState = GameState.GameOver;
+                }
+                else if (player2Lives == 0)
+                {
+                    P1win = true;
                     gameState = GameState.GameOver;
                 }
             }
             if (gameState == GameState.GameOver)
             {
-                 if(Keyboard.IsKeyDown(Key.Enter) || Keyboard.IsKeyDown(Key.Space))
+                //reset music
+                musicPlayer.Stop();
+
+                //announce winner
+                if (P1win)
                 {
+                    lblScore.Content = "Player 1 wins with " + playerLives.ToString() + " lives left";
+                }
+                if (P2win)
+                {
+                    lblScore.Content = "Player 2 wins with " + player2Lives.ToString() + " lives left";
+                }
+
+                lblScore.Visibility = Visibility.Visible;
+
+                if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                {
+                    //reset game
                     canvas.Children.Clear();
                     canvas.Children.Add(lblP1Lives);
                     canvas.Children.Add(lblP2Lives);
+                    canvas.Children.Add(lblScore);
+                    lblScore.Visibility = Visibility.Hidden;
                     gameState = GameState.SplashScreen;
                 }
             }
