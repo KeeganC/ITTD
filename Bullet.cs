@@ -18,7 +18,7 @@ namespace ITTD
         public Rectangle bullet;
         bool movingLeft = true;
         int hitPlayer = 0;
-        int hitDelay = 0;
+        int hitDelay = 20;
         Canvas canvas;
 
         public Bullet(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
@@ -63,12 +63,21 @@ namespace ITTD
         }
 
         //remove bullet when it hits something
-        public void removeBullets()
+        public void removeBullets(double leftSide, double rightSide, double bottom, double top)
         {
-            if (bulletX > 800 || bulletX < 0)
+            if (bulletX < rightSide && bulletX > leftSide && bulletY < top && bulletY > bottom)
             {
                 canvas.Children.Remove(bullet);
+                if (movingLeft == true)
+                {
+                    bulletX = -101;
+                }
+                else
+                {
+                    bulletX = 901;
+                }
             }
+            
         }
 
         //Check player Collision
