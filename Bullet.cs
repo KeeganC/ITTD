@@ -28,7 +28,7 @@ namespace ITTD
             bullet = new Rectangle();
             bullet.Width = 5;
             bullet.Height = 5;
-            bullet.Fill = Brushes.Green;
+            bullet.Fill = Brushes.Red;
 
             //check which side of player to spawn the bullet on
             if (facingLeft == false)
