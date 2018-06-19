@@ -363,6 +363,9 @@ namespace ITTD
                     hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
 
+                lblP1Lives.Content = "P1 Lives: " + playerLives.ToString();
+                lblP2Lives.Content = "P2 Lives: " + player2Lives.ToString();
+                
                 //Scoring 
                 if (hitPlayer == 1)
                 {
@@ -380,9 +383,11 @@ namespace ITTD
             }
             if (gameState == GameState.GameOver)
             {
-                if(Keyboard.IsKeyDown(Key.Enter) || Keyboard.IsKeyDown(Key.Space))
+                 if(Keyboard.IsKeyDown(Key.Enter) || Keyboard.IsKeyDown(Key.Space))
                 {
                     canvas.Children.Clear();
+                    canvas.Children.Add(lblP1Lives);
+                    canvas.Children.Add(lblP2Lives);
                     gameState = GameState.SplashScreen;
                 }
             }
