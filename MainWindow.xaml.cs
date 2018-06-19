@@ -136,7 +136,9 @@ namespace ITTD
 
             if (gameState == GameState.GameOn)
             {
-
+                //start music
+                musicPlayer.Open(new Uri("Spacey-Ambient-Electronic-Chill Out-Music--I AM.wav", UriKind.Relative));
+                musicPlayer.Play();
 
                 lastPos.X = playerMovementX;
                 lastPos.Y = playerMovementY;
