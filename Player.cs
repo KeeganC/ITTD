@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ITTD
@@ -18,12 +19,21 @@ namespace ITTD
         bool canJump = true;
         public bool facingLeft = true;
         int counterTimer = 0;
+        int updateCounter = 0;
+
 
         //create player
         public void createPlayer(Canvas c, Point location, int playerNum)
         {
             canvas = c;
-            rctPlayer.Fill = Brushes.Red;
+            if (playerNum == 1)
+            {
+                rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/AnakinAR.png", UriKind.Relative)));
+            }
+            else
+            {
+                rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/MayorAL.png", UriKind.Relative)));
+            }
             rctPlayer.Height = 35;
             rctPlayer.Width = 30;
 
@@ -42,6 +52,7 @@ namespace ITTD
         public double addMomentum(double playerMomentum, int playerNum)
         {
             int speedcap = 7;
+            updateCounter++;
             //apply force in a certain direction
             if (playerNum == 1)
             {
@@ -49,6 +60,17 @@ namespace ITTD
                 {
                     facingLeft = true;
                     playerMomentum -= 1;
+
+                    //changes sprite to running
+                    if (updateCounter % 2 == 0)
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/AnakinAL.png", UriKind.Relative)));
+                    }
+                    else
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/AnakinBL.png", UriKind.Relative)));
+                    }
+
                     if (playerMomentum < -speedcap)//speedcap left
                     {
                         playerMomentum = -speedcap;
@@ -58,6 +80,17 @@ namespace ITTD
                 {
                     facingLeft = false;
                     playerMomentum += 1;
+
+                    //changes sprite to running
+                    if (updateCounter % 2 == 0)
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/AnakinAR.png", UriKind.Relative)));
+                    }
+                    else
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/AnakinBR.png", UriKind.Relative)));
+                    }
+
                     if (playerMomentum > speedcap)//speedcap right
                     {
                         playerMomentum = speedcap;
@@ -70,6 +103,17 @@ namespace ITTD
                 {
                     facingLeft = true;
                     playerMomentum -= 1;
+
+                    //changes sprite to running
+                    if (updateCounter % 2 == 0)
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/MayorAL.png", UriKind.Relative)));
+                    }
+                    else
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/MayorBL.png", UriKind.Relative)));
+                    }
+
                     if (playerMomentum < -speedcap)//speedcap left
                     {
                         playerMomentum = -speedcap;
@@ -79,6 +123,17 @@ namespace ITTD
                 {
                     facingLeft = false;
                     playerMomentum += 1;
+
+                    //changes sprite to running
+                    if (updateCounter % 2 == 0)
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/MayorAR.png", UriKind.Relative)));
+                    }
+                    else
+                    {
+                        rctPlayer.Fill = new ImageBrush(new BitmapImage(new Uri("Sprites/MayorBR.png", UriKind.Relative)));
+                    }
+
                     if (playerMomentum > speedcap)//speedcap right
                     {
                         playerMomentum = speedcap;
