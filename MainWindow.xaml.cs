@@ -114,7 +114,7 @@ namespace ITTD
             if (gameState == GameState.GameOn)
             {
 
-                
+
                 lastPos.X = playerMovementX;
                 lastPos.Y = playerMovementY;
 
