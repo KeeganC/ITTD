@@ -362,9 +362,6 @@ namespace ITTD
                     
                     hitPlayer = b.hitPlayerCheck(playerMovementX, playerMovementY, player2MovementX, player2MovementY);
                 }
-
-                lblP1Lives.Content = "P1 Lives: " + playerLives.ToString();
-                lblP2Lives.Content = "P2 Lives: " + player2Lives.ToString();
                 
                 //Scoring 
                 if (hitPlayer == 1)
@@ -376,6 +373,9 @@ namespace ITTD
                     player2Lives -= 1;
                 }
 
+                lblP1Lives.Content = "P1 Lives: " + playerLives.ToString();
+                lblP2Lives.Content = "P2 Lives: " + player2Lives.ToString();
+                
                 if (playerLives == 0 || player2Lives == 0)
                 {
                     gameState = GameState.GameOver;
