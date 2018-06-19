@@ -100,6 +100,8 @@ namespace ITTD
             Player2.createPlayer(canvas, P2Start, 2);
             player2MovementX = 770;
             player2Moving = 770;
+            playerMovementX = 1;
+            playerMoving = 1;
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -151,9 +153,9 @@ namespace ITTD
                     playerMomentumUp = Player.addMomentumUp(playerMomentumUp, 1);
 
                     playerMoving += playerMomentum;
-                    if (playerMovementX < 0) //wall cycle to oposite wall
+                    if (playerMovementX <= 0) //wall cycle to oposite wall
                     {
-                        playerMoving = 800;
+                        playerMoving = 770;
                     }
                     if (playerMoving > 770)
                     {
@@ -171,12 +173,19 @@ namespace ITTD
                         playerMovementY = 20;
                         playerMomentumUp = 1;
                     }
+                    solidPlatform(0, 800, 600, 700);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     passThroughPlatform(200, 300, 100, 110);
                     passThroughPlatform(500, 600, 100, 110);
                     solidPlatform(0, 100, 150, 170);
                     solidPlatform(canvas.Width - 100, canvas.Width, 150, 170);
                     solidPlatform(150, 650, 220, 240);
+                    passThroughPlatform(150, 300, 310, 321);
+                    solidPlatform(300, 500, 300, 320);
+                    passThroughPlatform(500, 650, 310, 321);
+                    passThroughPlatform(300, 500, 380, 390);
+                    solidPlatform(0, 200, 450, 470);
+                    solidPlatform(canvas.Width - 200, canvas.Width, 450, 470);
 
 
                     Player.update(canvas, playerMovementX, playerMovementY);
@@ -273,12 +282,19 @@ namespace ITTD
                         player2MomentumUp = 1;
                     }
 
+                    solidPlatform(0, 800, 600,  700);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     passThroughPlatform(200, 300, 100, 110);
                     passThroughPlatform(500, 600, 100, 110);
                     solidPlatform(0, 100, 150, 170);
                     solidPlatform(canvas.Width - 100, canvas.Width, 150, 170);
                     solidPlatform(150, 650, 220, 240);
+                    passThroughPlatform(150, 300, 310, 321);
+                    solidPlatform(300, 500, 300, 320);
+                    passThroughPlatform(500, 650, 310, 321);
+                    passThroughPlatform(300, 500, 380, 390);
+                    solidPlatform(0, 200, 450, 470);
+                    solidPlatform(canvas.Width - 200, canvas.Width, 450, 470);
 
 
                     Player2.update(canvas, player2MovementX, player2MovementY);
