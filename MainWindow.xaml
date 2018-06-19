@@ -27,6 +27,19 @@
             Canvas.Left="680" 
             Width="120"
             FontSize="20" FontFamily="Segoe UI Black"/>
+        <Label 
+            x:Name="lblScore"
+            Content="P1 wins with 3 lives left" 
+            Height="76" 
+            Canvas.Left="89" 
+            Canvas.Top="45" 
+            Width="606" 
+            HorizontalContentAlignment="Center" 
+            VerticalContentAlignment="Center" 
+            FontFamily="Segoe UI Black" 
+            FontSize="36" 
+            Visibility="Hidden">
+        </Label>
     </Canvas>
     <Window.Background>
         <ImageBrush>
