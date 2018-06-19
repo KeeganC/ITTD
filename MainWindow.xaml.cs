@@ -41,7 +41,7 @@ namespace ITTD
         double playerMovingUp = 0;
         double playerMovementY = 0;
         Point lastPos = new Point();
-        bool canShoot = true;
+        bool canShoot = false;
         bool facingLeft = true;
         int bulletCounterTimer2 = 0;
         double player2Momentum = 0;
@@ -51,8 +51,8 @@ namespace ITTD
         double player2MovingUp = 0;
         double player2MovementY = 0;
         Point lastPos2 = new Point();
-        bool canShoot2 = true;
-        bool facingLeft2 = true;
+        bool canShoot2 = false;
+        bool facingLeft2 = false;
         List<Bullet> bullets = new List<Bullet>();
 
 
@@ -86,6 +86,7 @@ namespace ITTD
 
         public void setupGame()
         {
+            //draw map
             Background map = new Background();
             map.drawMap1(canvas);
             maps = ITTD.Background.Maps.Map1;
@@ -98,10 +99,22 @@ namespace ITTD
             P2Start.Y = 0;
             Player.createPlayer(canvas, P1Start, 1);
             Player2.createPlayer(canvas, P2Start, 2);
-            player2MovementX = 770;
-            player2Moving = 770;
+
+            //reset players
+            playerLives = 3;
+            player2Lives = 3;
             playerMovementX = 1;
+            playerMovementY = 0;
             playerMoving = 1;
+            playerMomentum = 0;
+            playerMomentumUp = 0;
+            playerMovingUp = 0;
+            player2MovementX = 770;
+            player2MovementY = 0;
+            player2Moving = 770;
+            player2Momentum = 0;
+            player2MomentumUp = 0;
+            player2MovingUp = 0;
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -110,7 +123,15 @@ namespace ITTD
 
             if (gameState == GameState.SplashScreen)
             {
-                setupGame();
+                if (Keyboard.IsKeyDown(Key.Y))
+                {
+                    setupGame();
+                }
+                if (Keyboard.IsKeyDown(Key.N))
+                {
+                    MessageBox.Show("Oh, okay :(");
+                    Environment.Exit(0);
+                }
             }
 
             if (gameState == GameState.GameOn)
@@ -282,7 +303,7 @@ namespace ITTD
                         player2MomentumUp = 1;
                     }
 
-                    solidPlatform(0, 800, 600,  700);
+                    solidPlatform(0, 800, 600, 700);
                     solidPlatform(canvas.Width / 2 - 50, canvas.Width / 2 + 50, 20, 90);
                     passThroughPlatform(200, 300, 100, 110);
                     passThroughPlatform(500, 600, 100, 110);
@@ -342,10 +363,19 @@ namespace ITTD
                 {
                     player2Lives -= 1;
                 }
+
+                if (playerLives == 0 || player2Lives == 0)
+                {
+                    gameState = GameState.GameOver;
+                }
             }
             if (gameState == GameState.GameOver)
             {
-
+                if(Keyboard.IsKeyDown(Key.Enter) || Keyboard.IsKeyDown(Key.Space))
+                {
+                    canvas.Children.Clear();
+                    gameState = GameState.SplashScreen;
+                }
             }
         }
 
