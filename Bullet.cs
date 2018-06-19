@@ -74,6 +74,7 @@ namespace ITTD
         public int hitPlayerCheck(double hitboxX, double hitboxY, double hitbox2X, double hitbox2Y)
         {
             hitPlayer = 0;
+
             if (bulletX > hitboxX && bulletX < hitboxX + 30 && bulletY > hitboxY && bulletY < hitboxY + 35)
             {
                 MessageBox.Show("Game Over man, Game Over\r\nP2 wins");
