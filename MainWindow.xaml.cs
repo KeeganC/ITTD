@@ -112,11 +112,11 @@ namespace ITTD
             playerMomentumUp = 0;
             playerMovingUp = 0;
             player2MovementX = 770;
-            player2MovementY = 0;
+            player2MovementY = 470;
             player2Moving = 770;
             player2Momentum = 0;
             player2MomentumUp = 0;
-            player2MovingUp = 0;
+            player2MovingUp = 470;
 
             P1win = false;
             P2win = false;
@@ -136,6 +136,7 @@ namespace ITTD
                 musicPlayer.Open(new Uri("DanceOfThorns.mp3", UriKind.Relative));
                 musicPlayer.Volume = 0.05;
                 musicPlayer.Play();
+                musicPlayer.Volume = 0.05;
 
                 if (Keyboard.IsKeyDown(Key.Y))
                 {
