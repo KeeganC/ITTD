@@ -71,6 +71,11 @@ namespace ITTD
         {
             InitializeComponent();
 
+            //sets splash and GameOver screens
+            rctSplashScreen.Fill = new ImageBrush(new BitmapImage(new Uri("SplashScreen.png", UriKind.Relative)));
+            rctGameOver.Fill = new ImageBrush(new BitmapImage(new Uri("GameOverScreen.png", UriKind.Relative)));
+            rctGameOver.Visibility = Visibility.Hidden;
+
             //starts the game timer thingy
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);//fps
@@ -122,6 +127,10 @@ namespace ITTD
 
             if (gameState == GameState.SplashScreen)
             {
+                //show image
+                rctGameOver.Visibility = Visibility.Hidden;
+                rctSplashScreen.Visibility = Visibility.Visible;
+
                 //start music
                 musicPlayer.Open(new Uri("DanceOfThorns.mp3", UriKind.Relative));
                 musicPlayer.Play();
@@ -139,7 +148,8 @@ namespace ITTD
 
             if (gameState == GameState.GameOn)
             {
-
+                //hide splashscreen
+                rctSplashScreen.Visibility = Visibility.Hidden;
 
                 lastPos.X = playerMovementX;
                 lastPos.Y = playerMovementY;
@@ -393,6 +403,11 @@ namespace ITTD
             }
             if (gameState == GameState.GameOver)
             {
+                //Show Game Over image
+                rctGameOver.Visibility = Visibility.Visible;
+                canvas.Children.Remove(rctGameOver);
+                canvas.Children.Add(rctGameOver);
+
                 //reset music
                 musicPlayer.Stop();
 
@@ -415,6 +430,8 @@ namespace ITTD
                     canvas.Children.Add(lblP1Lives);
                     canvas.Children.Add(lblP2Lives);
                     canvas.Children.Add(lblScore);
+                    canvas.Children.Add(rctSplashScreen);
+                    canvas.Children.Add(rctGameOver);
                     lblScore.Visibility = Visibility.Hidden;
                     gameState = GameState.SplashScreen;
                 }
