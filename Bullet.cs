@@ -20,6 +20,7 @@ namespace ITTD
         int hitPlayer = 0;
         int hitDelay = 20;
         Canvas canvas;
+        MediaPlayer hit = new MediaPlayer();
 
         public Bullet(Canvas c, bool facingLeft, double gunBarrelX, double gunBarrelY)
         {
@@ -77,7 +78,10 @@ namespace ITTD
                     bulletX = 901;
                 }
             }
-
+            if (bulletX > 800 || bulletX < 0)
+            {
+                canvas.Children.Remove(bullet);
+            }
         }
 
         //Check player Collision
@@ -93,12 +97,22 @@ namespace ITTD
                     //NIU MessageBox.Show("Game Over man, Game Over\r\nP2 wins");
                     hitPlayer = 1;
                     hitDelay = 0;
+
+                    //show hit
+                    hit.Open(new Uri("hit2.mp3", UriKind.Relative));
+                    hit.Play();
+                    bullet.Fill = Brushes.Gold;
                 }
                 if (bulletX > hitbox2X && bulletX < hitbox2X + 30 && bulletY > hitbox2Y && bulletY < hitbox2Y + 35)
                 {
                     //NIU MessageBox.Show("Game Over man, Game Over\r\nP1 wins");
                     hitPlayer = 2;
                     hitDelay = 0;
+
+                    //show hit
+                    hit.Open(new Uri("hit1.mp3", UriKind.Relative));
+                    hit.Play();
+                    bullet.Fill = Brushes.Gold;
                 }
             }
             return hitPlayer;
