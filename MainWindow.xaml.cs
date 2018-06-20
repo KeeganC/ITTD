@@ -66,6 +66,7 @@ namespace ITTD
 
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
         MediaPlayer musicPlayer = new MediaPlayer();
+        MediaPlayer gameOver = new MediaPlayer();
 
         public MainWindow()
         {
@@ -405,6 +406,10 @@ namespace ITTD
             }
             if (gameState == GameState.GameOver)
             {
+                //Music does not run, same problem the other Ethan was having where some files work but others do not.
+                //gameOver.Open(new Uri("SadViolin.mp3", UriKind.Relative));
+                //gameOver.Volume = 1;
+                //gameOver.Play();
                 //Show Game Over image
                 rctGameOver.Visibility = Visibility.Visible;
                 canvas.Children.Remove(rctGameOver);
@@ -412,7 +417,6 @@ namespace ITTD
 
                 //reset music
                 musicPlayer.Stop();
-
                 //announce winner
                 if (P1win)
                 {
@@ -424,10 +428,12 @@ namespace ITTD
                 }
 
                 lblScore.Visibility = Visibility.Visible;
+                
 
                 if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 {
                     //reset game
+                    //gameOver.Stop();
                     canvas.Children.Clear();
                     canvas.Children.Add(lblP1Lives);
                     canvas.Children.Add(lblP2Lives);
