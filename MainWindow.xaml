@@ -40,6 +40,19 @@
             FontSize="36" 
             Visibility="Hidden">
         </Label>
+        <Rectangle 
+            x:Name="rctSplashScreen"
+            Fill="#FFF4F4F5" 
+            Height="600" 
+            Stroke="Transparent" 
+            Width="800"/>
+        <Rectangle 
+            x:Name="rctGameOver"
+            Fill="#FFF4F4F5" 
+            Height="600" 
+            Stroke="Transparent" 
+            Width="800"
+            />
     </Canvas>
     <Window.Background>
         <ImageBrush>
