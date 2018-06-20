@@ -133,6 +133,7 @@ namespace ITTD
 
                 //start music
                 musicPlayer.Open(new Uri("DanceOfThorns.mp3", UriKind.Relative));
+                musicPlayer.Volume = 0.05;
                 musicPlayer.Play();
 
                 if (Keyboard.IsKeyDown(Key.Y))
@@ -141,6 +142,7 @@ namespace ITTD
                 }
                 if (Keyboard.IsKeyDown(Key.N))
                 {
+                    musicPlayer.Stop();
                     MessageBox.Show("Oh, okay :(");
                     Environment.Exit(0);
                 }
